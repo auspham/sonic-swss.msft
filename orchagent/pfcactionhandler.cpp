@@ -269,6 +269,17 @@ PfcWdDlrHandler::PfcWdDlrHandler(sai_object_id_t port, sai_object_id_t queue,
 {
     SWSS_LOG_ENTER();
 
+    sai_attribute_t attr2;
+    attr2.id = SAI_QUEUE_ATTR_ENABLE_PFC_DLDR;
+    attr2.value.booldata = true;
+    sai_status_t status2 = sai_queue_api->set_queue_attribute(queue, &attr2);
+
+    if(status2 != SAI_STATUS_SUCCESS)
+    {
+        SWSS_LOG_ERROR("Failed to set switch SAI_QUEUE_ATTR_ENABLE_PFC_DLDR: %d", status2);
+        return;
+    }
+
     sai_attribute_t attr;
     attr.id = SAI_QUEUE_ATTR_PFC_DLR_INIT;
     attr.value.booldata = true;
